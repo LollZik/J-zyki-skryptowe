@@ -34,40 +34,7 @@ def extract_content(output_callback):
                 output_callback(buffer.rstrip('\n'))
 
             continue
-
-
-
-# def main(process_line):
-#     lineCount = 0
-#     emptyStreak = 0
-#     preamblePossible = True
-#     preambleSkipped = False
-#
-#     for line in sys.stdin:
-#         line = line.rstrip("\n")
-#         lineCount += 1
-#
-#         if line.strip() == "-----":
-#             return
-#
-#         if not preambleSkipped and preamblePossible:
-#             if line.strip() == "":
-#                 emptyStreak += 1
-#             else:
-#                 emptyStreak = 0
-#
-#             if emptyStreak >= 2:
-#                 preambleSkipped = True
-#                 continue
-#
-#             if lineCount >= 10:
-#                 preamblePossible = False
-#
-#             continue
-#
-#         processed = process_line(line)
-#         print(processed)
-
+        output_callback(processed_line)
 
 def main():
     extract_content(print)

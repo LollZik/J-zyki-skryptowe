@@ -21,7 +21,6 @@ def processLine(line):
 
 
 def get_sentences():
-
     sentence_buffer = ""
     consecutive_newlines = 0
     last_was_space = False

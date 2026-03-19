@@ -10,7 +10,7 @@ def count_target_words(sentence):
         if char.isalpha():
             current_word += char.lower()
         else: # word is finished
-            # if current_word in (...)
+            # if current_word in [...]
             if current_word == "i" or current_word == "oraz" or current_word == "ale" or current_word == "że" or current_word == "lub":
                 count += 1
             current_word = ""
@@ -32,7 +32,7 @@ def filter_conjunction_sentences(output_callback):
                 output_callback(sentence)
 
     except Exception as e:
-        sys.stderr.write(f"Wystąpił błąd podczas przetwarzania: {e}\n")
+        sys.stderr.write(f"Error occured: {e}\n")
 
 def main():
     filter_conjunction_sentences(print)

@@ -1,15 +1,23 @@
 import sys
 
+
+def countCharacters(output_callback):
+    count = 0
+    try:
+        for line in sys.stdin:
+            for char in line:
+                if not char.isspace():
+                    count += 1
+
+        output_callback(count)
+
+    except Exception as e:
+        sys.stderr.write(f"Error occured: {e}\n")
+
+
 def main():
-    text = sys.stdin.read()
-    if text:
-        count = 0
-        for char in text:
-            if not char.isspace():
-                count += 1
-        print(count)
-    else:
-        print("0")
+    countCharacters(print)
+
 
 if __name__ == '__main__':
     main()

@@ -1,30 +1,27 @@
 import sys
+from common import get_sentences
 
-sys.stdin.reconfigure(encoding='utf-8')
-sys.stdout.reconfigure(encoding='utf-8')
+def printLongestSentence(output_callback):
+    sys.stdin.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding='utf-8')
 
+    longest_sentence = ""
+
+    try:
+        for sentence in get_sentences():
+            if len(sentence) > len(longest_sentence):
+                longest_sentence = sentence
+
+        if longest_sentence:
+            output_callback(longest_sentence)
+        else:
+            output_callback("No sentences")
+
+    except Exception as e:
+        sys.stderr.write(f"Error occured: {e}\n")
 
 def main():
-    text = sys.stdin.read()
-    if text:
-        longestSentence = ""
-        currentSentence = ""
-
-        for char in text:
-            if char in ".?!":
-                if len(longestSentence) < len(currentSentence) + 1:
-                    longestSentence = currentSentence + char
-
-                currentSentence = ""
-            else:
-                currentSentence += char
-
-        if len(longestSentence) < len(currentSentence) + 1:
-            longestSentence = currentSentence
-
-        print(longestSentence)
-    else:
-        print("No sentences")
+    printLongestSentence(print)
 
 if __name__ == '__main__':
     main()
