@@ -1,5 +1,11 @@
 import sys
 
+def setup_io():
+    # noinspection PyUnresolvedReferences
+    sys.stdin.reconfigure(encoding='utf-8')
+    # noinspection PyUnresolvedReferences
+    sys.stdout.reconfigure(encoding='utf-8')
+
 def processLine(line):
     stripped = line.strip()
     if not stripped:
@@ -19,6 +25,17 @@ def processLine(line):
 
     return result
 
+def get_words(sentence):
+    current_word = ""
+    for char in sentence:
+        if char.isalpha():
+            current_word += char
+        else:
+            if current_word:
+                yield current_word
+                current_word = ""
+    if current_word:
+        yield current_word
 
 def get_sentences():
     sentence_buffer = ""
@@ -47,6 +64,7 @@ def get_sentences():
                         last_was_space = True
             else:
                 consecutive_newlines = 0
+                #if char in ".?!…" if we'd rather include "…" too
                 if char in ".?!":
                     sentence_buffer += char
                     clean = sentence_buffer.strip()
@@ -66,5 +84,9 @@ def get_sentences():
         if clean:
             yield clean
 
+    except UnicodeDecodeError:
+        sys.stderr.write("Encoding error: The input file must be in UTF-8 format.\n")
+    except BrokenPipeError:
+        sys.stderr.write("Broken pipe: The pipeline was interrupted by the parent process.\n")
     except Exception as e:
-        sys.stderr.write(f"Error occured: {e}\n")
+        sys.stderr.write(f"An unexpected error occurred: {e}\n")
