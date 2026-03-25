@@ -25,7 +25,7 @@ def detect_sus(log, threshold):
         total = counts[ip]
         errors = error_counts.get(ip, 0)
 
-        if total > threshold and errors > 0:
+        if total > threshold and errors > 10:
             sus_ips.append(ip)
     return sus_ips
 
