@@ -16,9 +16,9 @@ def read_log():
             orig_p = int(fields[3])
             resp_h = fields[4]
             resp_p = int(fields[5])
-            method = fields[8]
-            host = fields[9]
-            uri = fields[10]
+            method = fields[7]
+            host = fields[8]
+            uri = fields[9]
             status = int(fields[14]) if fields[14] != '-' else 0
 
             log_data.append((ts, uid, orig_h, orig_p, resp_h, resp_p, method, host, uri, status))
