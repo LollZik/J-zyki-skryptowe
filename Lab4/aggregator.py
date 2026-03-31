@@ -3,7 +3,6 @@ import os
 import csv
 import subprocess
 import io
-from collections import Counter
 
 def aggregate():
     if len(sys.argv) < 2:
@@ -27,14 +26,16 @@ def aggregate():
                 try:
                     reader = csv.reader(io.StringIO(process.stdout.strip()))
                     for row in reader:
-                        if len(row) == 6:
+                        if len(row) == 8:
                             data = {
                                 "file_path": row[0],
                                 "total_characters": int(row[1]),
                                 "total_words": int(row[2]),
                                 "total_lines": int(row[3]),
                                 "most_frequent_character": row[4],
-                                "most_frequent_word": row[5]
+                                "char_freq": int(row[5]),
+                                "most_frequent_word": row[6],
+                                "word_freq": int(row[7])
                             }
                             results.append(data)
                 except Exception:
@@ -45,14 +46,14 @@ def aggregate():
     total_words = sum(r.get("total_words", 0) for r in results)
     total_lines = sum(r.get("total_lines", 0) for r in results)
 
-    all_chars = [r.get("most_frequent_character") for r in results if r.get("most_frequent_character")]
-    all_words = [r.get("most_frequent_word") for r in results if r.get("most_frequent_word")]
+    best_char_record = max(results, key=lambda x: x.get("char_freq", 0), default={})
+    overall_freq_char = best_char_record.get("most_frequent_character", "")
 
-    overall_freq_char = Counter(all_chars).most_common(1)[0][0] if all_chars else ""
-    overall_freq_word = Counter(all_words).most_common(1)[0][0] if all_words else ""
+    best_word_record = max(results, key=lambda x: x.get("word_freq", 0), default={})
+    overall_freq_word = best_word_record.get("most_frequent_word", "")
 
     output = io.StringIO()
-    writer = csv.writer(output)
+    writer = csv.writer(output, delimiter=';')
 
     writer.writerow([
         "total_files",
